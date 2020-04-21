@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.bysj.mapper.PaymentstandardMapper">
+    <resultMap type="Paymentstandard" id="myMap" >
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="detail" column="detail"/>
+        <result property="addpeople" column="addpeople"/>
+        <result property="addtime" column="addtime"/>
+        <result property="editpeople" column="editpeople"/>
+        <result property="edittime" column="edittime"/>
+        <result property="isnowstandrad" column="isnowstandrad"/>
+    </resultMap>
+    <select id="selAll" resultMap="myMap">
+        SELECT *
+        FROM paymentstandard
+    </select>
+    <select id="selTotal" resultType="Integer">
+        SELECT COUNT(*)
+        FROM paymentstandard
+    </select>
+    <delete id="delAll" parameterType="int">
+        DELETE  FROM paymentstandard WHERE id=#{id}
+    </delete>
+    <insert id="addPayment" parameterType="Paymentstandard">
+        INSERT INTO paymentstandard VALUE(default,#{title},#{detail},#{addpeople},#{addtime},#{editpeople},#{edittime},#{isnowstandrad})
+    </insert>
+    <update id="updPayment" parameterType="Paymentstandard">
+        UPDATE paymentstandard SET title=#{title},detail=#{detail},editpeople=#{editpeople},edittime=#{edittime} WHERE id=#{id}
+    </update>
+    <select id="findPayment" resultMap="myMap">
+        SELECT * FROM paymentstandard
+        <choose>
+            <when test="(title != null and title != '') and (isnowstandrad != '' and isnowstandrad != null)">
+                WHERE title like '%${title}%' AND isnowstandrad=#{isnowstandrad}
+            </when>
+            <when test="(title != null and title != '') and (isnowstandrad == null or isnowstandrad == '')">
+                WHERE title like '%${title}%'
+            </when>
+            <when test="(isnowstandrad != null and isnowstandrad != '') and (title == null or title =='')">
+                WHERE isnowstandrad = #{isnowstandrad}
+            </when>
+            <otherwise>
+                WHERE  id IS NOT NULL
+            </otherwise>
+        </choose>
+    </select>
+    <select id="findCount" resultType="Integer">
+        SELECT COUNT(*) FROM paymentstandard
+        <choose>
+            <when test="(title != null and title != '') and (isnowstandrad != '' and isnowstandrad != null)">
+                WHERE title like '%${title}%' AND isnowstandrad=#{isnowstandrad}
+            </when>
+            <when test="(title != null and title != '') and (isnowstandrad == null or isnowstandrad == '')">
+                WHERE title like '%${title}%'
+            </when>
+            <when test="(isnowstandrad != null and isnowstandrad != '') and (title == null or title =='')">
+                WHERE isnowstandrad = #{isnowstandrad}
+            </when>
+            <otherwise>
+                WHERE  id IS NOT NULL
+            </otherwise>
+        </choose>
+    </select>
+    <update id="setStandradNo" parameterType="Paymentstandard">
+        UPDATE paymentstandard SET isnowstandrad=#{isnowstandrad} WHERE id &lt;&gt;#{id}
+    </update>
+    <update id="setStandradYes" parameterType="Paymentstandard">
+        UPDATE paymentstandard SET isnowstandrad=#{isnowstandrad} WHERE id =#{id}
+    </update>
+    <select id="selStandrad" resultMap="myMap">
+        SELECT *
+        FROM paymentstandard WHERE isnowstandrad=#{isnowstandrad}
+    </select>
+</mapper>

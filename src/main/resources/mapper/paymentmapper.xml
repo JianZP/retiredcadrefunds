@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.bysj.mapper.PaymentMapper">
+    <resultMap type="Payment" id="myMap" >
+        <id property="id" column="id"/>
+        <result property="expenditurename" column="expenditurename"/>
+        <result property="expendituretype" column="expendituretype"/>
+        <result property="usecase" column="usecase"/>
+        <result property="addtime" column="addtime"/>
+        <result property="canmoney" column="canmoney"/>
+    </resultMap>
+    <select id="selAll" resultMap="myMap">
+        SELECT *
+        FROM payment
+    </select>
+    <select id="selPaymentCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM payment
+    </select>
+    <insert id="addPayment" parameterType="Payment">
+        INSERT INTO payment VALUE(default,#{expenditurename},#{expendituretype},#{usecase},#{addtime},#{canmoney})
+    </insert>
+    <update id="updPayment" parameterType="Payment">
+        UPDATE payment SET expenditurename=#{expenditurename},expendituretype=#{expendituretype},canmoney=#{canmoney} WHERE id=#{id}
+    </update>
+    <delete id="delAll" parameterType="int">
+        DELETE  FROM payment WHERE id=#{id}
+    </delete>
+    <select id="selMoney" resultMap="myMap">
+        SELECT *
+        FROM payment WHERE id=#{id}
+    </select>
+</mapper>

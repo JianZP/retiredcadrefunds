@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.bysj.mapper.DepartmentMapper">
+    <resultMap type="Department" id="myMap" >
+        <id property="id" column="id"/>
+        <result property="partname" column="partname"/>
+        <result property="belongcompany" column="belongcompany"/>
+        <result property="address" column="address"/>
+        <result property="retime" column="retime"/>
+        <result property="telnum" column="telnum"/>
+    </resultMap>
+    <select id="selAll" resultMap="myMap">
+        SELECT *
+        FROM department
+    </select>
+</mapper>

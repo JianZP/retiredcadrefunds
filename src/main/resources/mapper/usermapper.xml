@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.bysj.mapper.UserMapper">
+    <resultMap type="User" id="myMap" >
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="isadmin" column="isadmin"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="address" column="address"/>
+        <result property="contactway" column="contactway"/>
+        <result property="belongpartyid" column="belongpartyid"/>
+    </resultMap>
+    <select id="selAll" resultMap="myMap">
+        SELECT *
+        FROM user WHERE username=#{username} AND password=#{password}
+    </select>
+    <select id="selByUser" resultMap="myMap">
+        SELECT *
+        FROM user WHERE username=#{username}
+    </select>
+    <insert id="insUser" parameterType="User">
+        INSERT INTO user VALUE(default,#{username},#{password},#{isadmin},#{name},#{sex},#{age},#{address},#{contactway},#{belongpartyid})
+    </insert>
+</mapper>
